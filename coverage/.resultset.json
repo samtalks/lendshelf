@@ -1,18 +1,18 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/jscag/Development/code/flatiron/rails/mybrary/app/controllers/items_controller.rb": [
+      "/Users/jscag/Development/code/flatiron/rails/lendshelf/app/controllers/items_controller.rb": [
         1,
         null
       ],
-      "/Users/jscag/Development/code/flatiron/rails/mybrary/app/controllers/application_controller.rb": [
+      "/Users/jscag/Development/code/flatiron/rails/lendshelf/app/controllers/application_controller.rb": [
         1,
         null,
         null,
         1,
         null
       ],
-      "/Users/jscag/Development/code/flatiron/rails/mybrary/app/controllers/users_controller.rb": [
+      "/Users/jscag/Development/code/flatiron/rails/lendshelf/app/controllers/users_controller.rb": [
         1,
         1,
         null,
@@ -88,7 +88,7 @@
         null,
         null
       ],
-      "/Users/jscag/Development/code/flatiron/rails/mybrary/app/models/item.rb": [
+      "/Users/jscag/Development/code/flatiron/rails/lendshelf/app/models/item.rb": [
         1,
         1,
         1,
@@ -97,13 +97,13 @@
         null,
         null
       ],
-      "/Users/jscag/Development/code/flatiron/rails/mybrary/app/models/loan.rb": [
+      "/Users/jscag/Development/code/flatiron/rails/lendshelf/app/models/loan.rb": [
         1,
         1,
         1,
         null
       ],
-      "/Users/jscag/Development/code/flatiron/rails/mybrary/app/models/user.rb": [
+      "/Users/jscag/Development/code/flatiron/rails/lendshelf/app/models/user.rb": [
         1,
         1,
         1,
