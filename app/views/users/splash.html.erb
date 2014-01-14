@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mybrary</title>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+    <!--Change order for full width navbar
+  <div class="navbar"> 
+    <div class="container" data-toggle="clingify">-->
+  <div class="container" data-toggle="clingify">
+    <div class="navbar">   
+        <!--
+      mobile collapse menu button
+      - data-toggle="toggle" = default BS menu
+      - data-toggle="jpanel-menu" = jPanel Menu
+      --> 
+      
+      <!--user menu-->
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbo-padder"></div>
+    <div class="jumbotron jumbo-picture">
+      <div class="container">
+        <h1 class="jumbo-text">Mybrary</h1>
+        <p>Mybrary is a social lending app that helps you share what you love with your friends, coworkers, and relatives.</p>
+        <p><%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in", class: "btn btn-primary btn-lg signup" %></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>First steps</h2>
+          <p>Using Mybrary is simple! Just make or join a group and list some items. Anyone who shares a group with you can see what you have available and request to borrow it. </p>
+          <!-- <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p> -->
+        </div>
+        <div class="col-md-4">
+          <h2>The exchange</h2>
+          <p>When one of your friends wants to borrow something from you the request appears on your profile page. Once you've handed him the item you simply mark it as Given. When your friend returns it you mark it as returned and it becomes available for others to request.</p>
+          <!-- <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p> -->
+       </div>
+        <div class="col-md-4">
+          <h2>Who has that?</h2>
+          <p>You'll never have to worry about who has what again. Mybrary keeps a full history of each of your items, so you can see when it was borrowed and returned.</p>
+          <!-- <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p> -->
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; James Tong, Sam Yang, & Josh Scaglione - Team Tigon @flatiron 2013</p>
+      </footer>
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

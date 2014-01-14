@@ -1,0 +1,106 @@
+/*/////////////////////////////////////////////////////////////////////
+ // 
+ // Custom theme code styles
+ // Written by Themelize.me (http://themelize.me)
+ // 
+ // This is an empty starter template for overriding styles
+ // set by Bootstrap & the theme
+ // 
+ // ----------------------------------------------------
+ // 
+ // Remove unused code for better performances
+ // 
+ // ----------------------------------------------------
+ // 
+ // @see - Usefuls tools online for editing
+ // 1. http://charliepark.org/bootstrap_buttons/ - Button style generator
+ // 2. http://www.colorzilla.com/gradient-editor/ - CSS3 gradient maker
+ // 
+ // @note
+ // To ensure custom styles are picked up
+ // wrap definitions in body tag
+ // ie.
+ // body .navbar-inner {
+ //   background: #ff0000;
+ // }
+ // 
+ /////////////////////////////////////////////////////////////////////*/
+/*
+ * --------------------------------------------------
+ * 1. General Elements
+ *--------------------------------------------------
+ */
+#navigation {
+  /* 1. Navigation wrapper */
+}
+#highlighted {
+  /* 2. Highlighted (below header) wrapper */
+}
+#content {
+  /* 3. Content wrapper */
+}
+#content-below {
+  /* 4. Content Below wrapper */
+}
+#footer {
+  /* 5. Footer wrapper */
+}
+/*
+ * --------------------------------------------------
+ * 2. Colours
+ *-------------------------------------------------- 
+ */
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+  background-color: lightyellow;
+}
+
+body a {
+  color: #09C;
+  text-decoration: none;
+}
+
+ul.nav-tabs li.active a {
+  font-size: 100%;
+  font-weight: bold;
+  background-color: #efefef;
+}
+
+.tabbable > ul.nav-tabs li.active a {
+  border-top: 4px solid #09C;
+  border-right: 1px solid darkgray;
+  border-left: 1px solid darkgray;
+  color: #505050;
+}
+
+.tabbable > ul.nav-tabs li.active a:hover {
+  background-color: #efefef;
+  border-top: 4px solid #09C;
+  border-right: 1px solid darkgray;
+  border-left: 1px solid darkgray;
+}
+
+.tabbable > ul.nav-tabs, ul.nav-tabs {
+  border-bottom: 1px solid darkgray;
+}
+
+.tabbable > ul.nav-tabs li a:hover {
+  background-color: lightgray;
+
+/*
+ * --------------------------------------------------
+ * 3. Responsiveness/media queries
+ *--------------------------------------------------
+ */
+@media (min-width: 992px) {
+  
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  
+}
+/*
+ * --------------------------------------------------
+ * 4. Misc
+ * Other stuff
+ *--------------------------------------------------
+ */

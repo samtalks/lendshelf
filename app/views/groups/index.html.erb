@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    
+    <h1>Discover Groups</h1>
+
+    <% current_user.recommend_groups.each do |group| %>
+      <div class="group-box">
+        <div class="nav group-header">
+          <h4 class="navbar-left group-buffer">
+            <%= link_to "#{group.name} (#{pluralize(group.members.size, 'member')})", group, :class => "group-link" %>
+          </h4>
+        </div>
+        <span></span>
+        <p class="group-buffer">
+          <%= group.description %>
+        </p>
+        <p class="group-buffer">
+          You know <% (current_user.grouped_users && group.users).each do |user| %>
+              <%= link_to user.name, user %>
+            <% end %> in this group.
+        </p>
+      </div>
+      <br>
+    <% end %>
+
+  </div>
+
+  <div class="col-md-1"></div>
+
+</div>

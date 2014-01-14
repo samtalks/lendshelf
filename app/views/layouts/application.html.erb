@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mybrary</title>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+    <!--Change order for full width navbar
+  <div class="navbar"> 
+    <div class="container" data-toggle="clingify">-->
+  <div data-toggle="clingify">
+    <div class="navbar">   
+        <!--
+      mobile collapse menu button
+      - data-toggle="toggle" = default BS menu
+      - data-toggle="jpanel-menu" = jPanel Menu
+      --> 
+      <a class="navbar-btn" data-toggle="jpanel-menu" data-target=".navbar-collapse">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </a> 
+      
+      <!--user menu-->
+      <div class="btn-group user-menu pull-right navbar-padbar">
+        <div class="navbar-formpad">
+          <%= form_tag(search_item_path, method: "get") do %>
+            <div class="input-group input-group-md">
+              <%= text_field_tag("search_string", nil, placeholder: "search by name or tag", class: "form-control") %>
+              <span class="input-group-btn">
+                <%= submit_tag("Go!", class: "btn btn-success btn-md") %>
+              </span>
+            </div>
+          <% end %>
+        </div>
+
+        <% if current_user %>
+          <%= link_to current_user.name, current_user, class: "btn btn-primary signup", data: {toggle: "modal"} %>
+          <%= link_to "Sign out", signout_path, id: "sign_out", class: "btn btn-primary signup" %>
+        <% else %>
+          <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in", class: "btn btn-primary signup" %>
+        <% end %>
+<!--         <a href="#signup-modal" class="btn btn-primary signup" data-toggle="modal">Sign Up</a>
+        <a href="#login-modal" class="btn btn-primary dropdown-toggle login" data-toggle="modal">Login</a> -->
+      </div>          
+      
+      <!--everything within this div is collapsed on mobile-->
+      <div class="navbar-collapse collapse"> 
+        
+        <!--main navigation-->
+        <ul class="nav navbar-nav">
+          <li class="home-link"><a href="<%= root_path %>"><%= image_tag("houses.png", :class => "tigon-homelink") %><span class="hidden">Home</span></a></li>
+          <% if current_user %>
+            <li><a href="<%= users_path %>" class="menu-item">User List</a></li>
+              <li><a href="<%= groups_path %>" class="menu-item">Discover Groups</a></li>
+        <!-- 'About' with Dropdown Menu -->
+<!--             <li class="dropdown">
+              <a href="about.htm" class="dropdown-toggle" id="about-drop" data-toggle="dropdown">About +</a> 
+              <ul class="dropdown-menu" role="menu" aria-labelledby="about-drop">
+                <li role="presentation"><a role="menuitem" href="about.htm" tabindex="-1" class="menu-item">About Us</a></li>
+                <li role="presentation"><a role="menuitem" href="team.htm" tabindex="-1" class="menu-item">Our Team</a></li>
+                <li role="presentation"><a role="menuitem" href="contact.htm" tabindex="-1" class="menu-item">Contact</a></li>
+              </ul>
+            </li>  -->
+          <% end %>           
+        </ul>
+      </div>
+      <!--/.navbar-collapse --> 
+    </div>
+  </div>
+
+
+<!-- Filter/Search will have -->
+<!-- Categories checkbox -->
+<!-- Groups checkbox -->
+<!-- Search bar that outputs all titles with the tag and/or titles themselves -->
+
+<div class="container body-colorizer">
+
+  <%= yield %>
+
+
+  <footer>
+    <hr>
+    <p class="de-emphasize" style="text-align: right">&copy; James Tong, Sam Yang, & Josh Scaglione - Team Tigon @flatiron 2013</p>
+  </footer>
+</div>
+
+</body>
+</html>

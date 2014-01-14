@@ -1,0 +1,6 @@
+<h1>Editing '<%= @item.name %>'</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Cancel Edit', user_item_path(@item.user_id,@item) %> |
+<%= link_to 'Back to User', user_path(@item.user_id) %>

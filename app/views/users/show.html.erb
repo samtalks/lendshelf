@@ -1,0 +1,183 @@
+<p id="notice" style="text-align: center;"><%= notice %></p>
+
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="tabbable">
+      <ul id="myTab" class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">
+          <% if @user != current_user %><%= @user.name %>'s<% else %>My<% end %> Inventory</a></li>
+        <% if @user == current_user %>
+        <li class=""><a href="#tab2" data-toggle="tab">My Borrowings</a></li>
+        <li class=""><a href="#tab3" data-toggle="tab">My Groups</a></li>
+        <% end %>
+      </ul>
+      <div id="myTabContent" class="tab-content">
+
+<!-- BEGINS TAB1 CONTENT -->
+        <div class="tab-pane fade active in" id="tab1">
+          <div class="user-header">
+            <h4 class="navbar-left"><%= @user.my_requested_items.size %>
+              <span class="de-emphasize">REQUESTED &nbsp;&nbsp;&nbsp;</span><%= @user.my_loaned_items.size %>
+              <span class="de-emphasize">LENT OUT &nbsp;&nbsp;&nbsp;</span><%= @user.my_available_items.size %>
+              <span class="de-emphasize">AVAILABLE &nbsp;&nbsp;&nbsp;</span><%= @user.items.size %>
+              <span class="de-emphasize">TOTAL</span></h4>
+            <p class="navbar-right">
+              <% if @user == current_user %>
+                <%= link_to 'Add New Item', new_user_item_path(@user), :class => "btn btn-primary" %>
+              <% elsif %>
+                <%= @user.currently_borrowing.size %>
+                <span class="de-emphasize">BORROWING &nbsp;&nbsp;&nbsp;</span><%= @user.currently_requesting.size %>
+                <span class="de-emphasize">WAITING TO GET &nbsp;&nbsp;&nbsp;</span>
+              <% end %></p>
+            <table class="table table-striped table-hover table-condensed table-outliner">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Other User</th>
+                  <th>Date</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @user.my_requested_items.each do |item| %>
+                  <tr>
+                    <td><%= link_to item.name, user_item_path(@user.id, item.id) %></td>
+                    <td><%= item.type_list.last %></td>
+                    <td>Requested</td>
+                    <td><% if current_user == @user || current_user == item.loans.last.user %> <!-- hides names that are not the user's -->
+                      by <%= link_to item.loans.last.user.name, user_path(item.loans.last.user) %>
+                      <% end %></td>
+                    <td>on <%= item.loans.last.created_at.strftime("%h %d") %></td>
+            <!-- Loops the <td> line so that both buttons fit on one line -->
+                    <% if current_user == @user %>
+                      <td style="width: 110px;">
+                      <%= button_to "Given", approve_loan_path(@user.id, item.id), class: "btn btn-success btn-xs btn-inline" %>
+                      <%= button_to "Deny", deny_loan_path(@user.id, item.id), class: "btn btn-danger btn-xs btn-inline" %>
+                    <% elsif current_user == item.loans.last.user %>
+                      <td>
+                      <%= button_to "Cancel", deny_loan_path(@user.id, item.id), class: "btn btn-warning btn-xs btn-inline" %>
+                    <% else %><td>
+                    <% end %></td>
+            <!-- Ends loop -->
+                  </tr>
+                <% end %>
+
+                <% @user.my_loaned_items.each do |item| %>
+                  <tr>
+                    <td><%= link_to item.name, user_item_path(@user.id, item.id) %></td>
+                    <td><%= item.type_list.last %></td>
+                    <td>Lent out</td>
+                    <td><% if current_user == @user || current_user == item.loans.last.user %> <!-- hides names that are not the user's -->
+                      to <%= link_to item.loans.last.user.name, item.loans.last.user %>
+                      <% end %></td>
+                    <td>on <%= item.loans.last.created_at.strftime("%h %d") %></td>
+                    <td><% if current_user == @user %>
+                      <%= button_to "Returned", return_loan_path(@user.id, item.id), data: { confirm: 'Are you sure? This marks your item as Available again and cannot be undone.' }, class: "btn btn-primary btn-xs btn-inline" %>
+                      <% end %></td>
+                  </tr>
+                <% end %>
+                <% @user.my_available_items.each do |item| %>
+                  <tr>
+                    <td><%= link_to item.name, user_item_path(@user.id, item.id) %></td>
+                    <td><%= item.type_list.last %></td>
+                    <td>Available</td>
+                    <td></td>
+                    <td></td>
+                    <td><% if current_user && current_user != @user %>
+                      <%= button_to "Request", request_loan_path(current_user, item.id), :class => "btn btn-primary btn-xs" %> 
+                      <% end %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+          </div>
+        </div>              
+<!-- ENDS TAB1 CONTENT -->
+<!-- BEGIN TAB2 CONTENT -->
+        <div class="tab-pane fade" id="tab2">
+          <h4><%= @user.currently_borrowing.size %>
+            <span class="de-emphasize">BORROWING &nbsp;&nbsp;&nbsp;</span><%= @user.currently_requesting.size %>
+            <span class="de-emphasize">WAITING TO GET &nbsp;&nbsp;&nbsp;</span><%= @user.items.size %>
+            <span class="de-emphasize">TOTAL</span>
+          </h4>
+
+          <table class="table table-striped table-hover table-condensed table-outliner">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Other User</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @user.currently_borrowing.each do |loan|%>
+                <tr>
+                  <td><%= link_to loan.item.name, user_item_path(loan.item.user_id, loan.item_id) %></td>
+                  <td><%= loan.item.type_list.last %></td>
+                  <td>Borrowing</td>
+                  <td>from <%= link_to loan.item.user.name, loan.item.user %></td>
+                  <td>since <%= loan.created_at.strftime("%h %d") %></td>
+                  <td></td>
+                </tr>
+              <% end %>
+              <% @user.currently_requesting.each do |loan|%>
+                <tr>
+                  <td><%= link_to loan.item.name, user_item_path(loan.user.id, loan.item.id) %></td>
+                  <td><%= loan.item.type_list.last %></td>
+                  <td>Waiting to get</td>
+                  <td>from <%= link_to loan.item.user.name, user_path(loan.item.user) %></td>
+                  <td>since <%= loan.created_at.strftime("%h %d") %></td>
+                  <td><% if current_user == @user %>
+                    <%= button_to "Cancel", deny_loan_path(loan.user.id, loan.item.id), class: "btn btn-warning btn-xs btn-inline" %>
+                    <% end %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+<!-- ENDS TAB2 CONTENT -->
+<!-- BEGIN TAB3 CONTENT -->
+        <div class="tab-pane fade" id="tab3">
+          <div class="user-header">
+            <h4 class="navbar-left"><%= @user.groups.size %>
+              <span class="de-emphasize">TOTAL GROUP MEMBERSHIPS</span></h4>
+            <p class="navbar-right">
+              <%= link_to 'New Group', new_group_path, :class => "btn btn-primary" %></p>
+
+          <table class="table table-striped table-hover table-condensed table-outliner">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Members</th>
+                <th>Items</th>
+                <th>Your Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @user.groups.each do |group|%>
+                <tr>
+                  <td><%= link_to group.name, group %></td>
+                  <td><%= group.description %></td>
+                  <td><%= group.members.size %></td>
+                  <td><%= group.members.inject(0) {|i, m| i + (m.user.items.size) } %></td>
+                  <td><%= @user.group_membership(group).state.titleize %></td>
+                  <td><%= link_to("Edit Group", edit_group_path(group)) if @user.group_membership(group).state == "owner" %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+<!-- ENDS TAB3 CONTENT -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+<p id="notice"><%= notice %></p>
+
+<div>
+  <h1><strong><%= @group.name %></strong></h1>
+</div>
+
+
+
+<div class="row">
+  <div class="col-md-8">
+    <h4><%= @members.size %> Members</h4>
+    <p><strong><%= @group.description %></strong></p>
+  </div>
+
+  <div class="pull-right" style="padding-right: 10px;">
+    <% if current_user != nil %>
+      <% if !(current_user.groups.include?(@group)) %>
+        <%= button_to 'Request to join this group', join_group_path(@group.id, current_user.id), :class => "btn btn-success btn-sm" %>
+      <% else %>
+        <%= button_to "#{current_user.group_membership(@group).state == "pending" ? "Withdraw join request" : "Leave this group"}", leave_group_path(@group.id, current_user.id), data: { confirm: "Are you sure? #{'You are the last member. If you leave the group will be disbanded.' if @group.memberships.size == 1}" }, :class => "btn btn-danger btn-sm" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+
+<div class="tabbable">
+  <ul id="myTab" class="nav nav-tabs">
+      <li class="active"><a href="#tab1" data-toggle="tab">Members</a></li>
+    <% if current_user && current_user.group_member?(@group) %>
+      <li class=""><a href="#tab2" data-toggle="tab">Items</a></li>
+    <% end %>
+    <% if current_user && current_user.group_admin?(@group) %>
+      <li class=""><a href="#tab3" data-toggle="tab">Manage</a></li>
+    <% end %>
+  </ul>
+  <div id="myTabContent" class="tab-content">
+
+
+<!-- BEGINS TAB1 CONTENT -->
+    <div class="tab-pane fade active in" id="tab1">
+
+      <ul><% @members.each do |m| %>
+          <li><%= link_to m.user.name, m.user %> (<%= pluralize( m.user.items.length, "item") %>)</li>
+        <% end %></ul>
+    </div>
+
+
+<!-- BEGINS TAB2 CONTENT -->
+    <div class="tab-pane fade" id="tab2">
+      <h4 class="margin-top-large">Group Items (Available: <%= @available_group_items.size %>)</h4>
+      <table class="table table-striped table-hover table-condensed table-outliner">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Owner</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @available_group_items.each do |item| %>
+            <tr>
+              <td><%= link_to item.name, user_item_path(item.user_id, item.id) %></td>
+              <td><%= item.type_list.last %></td>
+              <td><%= item.state.capitalize %> </td>
+              <td><%= item.user.name %></td>
+              <td style="width: 80px;"><% if current_user.group_member?(@group) && current_user != item.user %>
+                <%= button_to "Request", request_loan_path(current_user, item.id), :class => "btn btn-primary btn-xs" %> 
+                <% end %></td>
+
+      <!-- Loops the <td> line so that both buttons fit on one line -->
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <h4 class="margin-top-large">Group Items (Unavailable Items: <%= @unavailable_group_items.size %>)</h4>
+      <table class="table table-striped table-hover table-condensed table-outliner">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Owner</th>
+            <th></th>
+        </thead>
+        <tbody>
+          <% @unavailable_group_items.each do |item| %>
+            <tr>
+              <td><%= link_to item.name, user_item_path(item.user_id, item.id) %></td>
+              <td><%= item.type_list.last %></td>
+              <td><%= item.state.capitalize %> </td>
+              <td><%= link_to item.user.name, item.user %></td>
+              <td style="width: 80px;"><% if current_user == item.loans.last %>
+                  <%= button_to "Cancel", deny_loan_path(item.user.id, item.id), class: "btn btn-warning btn-xs btn-inline" %>
+                  <% end %></td>
+      <!-- Ends loop -->
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+
+
+<!-- BEGINS TAB3 CONTENT -->
+    <% if current_user && current_user.group_admin?(@group) %>
+    <div class="tab-pane fade" id="tab3">
+
+          <div class="pull-right">
+            <%= link_to 'Edit Group', edit_group_path(@group), :class => "btn btn-primary btn-sm" %>
+          </div>
+
+          <h4>Pending Members (<%= @pending.size %>):</h4>
+          <ul>
+            <% @pending.each do |m| %>
+              <li>
+                <%= link_to m.user.name, m.user %> (<%= pluralize( m.user.items.length, "item") %>)
+                <%= button_to "Approve", approve_member_path(@group.id, m.user_id), :class => "pull-left btn btn-success btn-sm signup" %>
+                <%= button_to "Deny", deny_member_path(@group.id, m.user_id), :class => "pull-left btn btn-danger btn-sm signup" %>
+              </li>
+            <% end %>
+          </ul>
+    </div>
+    <% end %>
+
+
+
+  </div>
+</div>    

@@ -1,0 +1,26 @@
+<%= form_for([current_user, @item]) do |f| %> 
+  <% if @item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+      <% @item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <%= f.label :name %><br>
+    <%= f.text_field :name, :required => true %><br>
+
+    <%= f.select(:type_list, options_for_select([['Book'], ['Movie, DVD'], ['Movie, Blu-Ray'], ['Music, CD'], ['Video Game'], ['Tabletop Game'], ['Sporting Goods'], ['Toys'], ['Tools'], ['Electronics']])) %>
+    <br>
+    <%= f.label :description %><br>
+    <%= f.text_area :description %><br>
+    <%= f.label :tag_list, "Enter tags, separated by commas" %><br>
+    <%= f.text_area :tag_list %><br>
+    <br>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

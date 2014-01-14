@@ -1,0 +1,109 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require bootstrap
+ *= require theme-style
+ *= require colour-blue
+ *= require_tree .
+ */
+
+/* changes links colors for login and signup to be white after visit */
+/*
+a.btn:visited {
+  color: white;
+}*/
+
+a.group-link:visited {
+  color: #CFCFCD;
+}
+
+.tigon-homelink {
+  margin: 18px 13px 0;
+  outline: 0;
+}
+
+.fill-page {
+  min-height: 80%;
+}
+
+.body-colorizer {
+  background: #efefef;
+}
+
+.table-outliner {
+  border: 1px solid #DDDDDD;
+}
+
+.btn-inline {
+  float: left;
+  margin-right: 3px;
+}
+
+.user-header {
+  margin: 0px;
+}
+
+.group-box {
+  padding-bottom: 2px;
+  background-color: #EFEFEF;
+}
+
+.group-header {
+  background-color: #1b1b1b;
+  color: #CFCFCF;
+  padding: 1px;
+  border-bottom: 2px solid #55a79a;
+}
+
+.group-buffer {
+  padding: 0 1em 0;
+}
+
+.navbar-padbar {
+  padding-top: 10px;
+}
+
+.jumbo-padder {
+  padding-top: 10px;
+}
+
+.jumbo-picture {
+  background-image: url('mybrary-jumbo.gif');
+  background-size: cover;
+  background-repeat:no-repeat;
+}
+
+.jumbo-text {
+  opacity: 1;
+}
+
+.navbar-formpad {
+  padding-top: 0px;
+  padding-right: 20px;
+  width: 240px; 
+  display: block; 
+  float: left;
+}
+
+.de-emphasize {
+   font-weight: normal;
+   font-size: 80%;
+   color: gray;
+}
+
+thead {
+  background-color: lightgray;
+}
+
+.my-inline {
+  display:inline;
+}
+
