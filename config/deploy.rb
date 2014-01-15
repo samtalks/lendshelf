@@ -1,13 +1,7 @@
-set :application, "set your application name here"
-set :repository,  "set your repository location here"
+# THIS IS HYBRID CODE CREATED FROM OLD CHEF APP AND NEW CAPIFICATION
 
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
-
-role :web, "your web-server here"                          # Your HTTP server, Apache/etc
-role :app, "your app-server here"                          # This may be the same as your `Web` server
-role :db,  "your primary db-server here", :primary => true # This is where Rails migrations will run
-role :db,  "your slave db-server here"
 
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
@@ -15,7 +9,31 @@ role :db,  "your slave db-server here"
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
 
-# If you are using Passenger mod_rails uncomment this:
+require "bundler/capistrano"
+require "rvm/capistrano"
+
+@application_name = "lendshelf"
+@application_ip_address = "192.241.175.48"
+@application_repo = "git@github.com:samtalks/lendshelf.git"
+
+set :application, @application_name
+set :server_ip, @application_ip_address
+set :repository, @application_repo
+set :use_sudo, false
+set :user, "sam"
+set :deploy_to, "/home/#{user}/#{application}"
+set :scm, :git
+
+set :rvm_type, :user
+
+default_run_options[:pty] = true
+
+role :app, server_ip
+role :web, server_ip
+role :db, server_ip, :primary => true  # This is where Rails migrations will run
+
+
+# If you are using Passenger mod_rails uncomment this: IMMEDIATE BELOW IS ORIGINAL CAPIFY
 # namespace :deploy do
 #   task :start do ; end
 #   task :stop do ; end
@@ -23,32 +41,7 @@ role :db,  "your slave db-server here"
 #     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 #   end
 # end
-
-
-# USED CHEF TO QUICK DEPLOY TO DIGITALOCEAN. BELOW IS ADDED CODE
-
-@application_name = "lendshelf"
-@application_ip_address = "162.243.113.189"
-@application_repo = "git@github.com:Team-Tigon/lendshelf.git"
-
-require "bundler/capistrano"
-require "rvm/capistrano"
-
-set :application, @application_name
-set :server_ip, @application_ip_address
-set :repository, @application_repo
-set :use_sudo, false
-set :user, "deployer"
-set :deploy_to, "/home/#{user}/#{application}"
-set :scm, :git
-
-set :rvm_type, :system
-
-default_run_options[:pty] = true
-
-role :app, server_ip
-role :web, server_ip
-role :db, server_ip, :primary => true
+# FOLLOWING IS THE CHEF'ED VERSION:
 
 namespace :deploy do
   task :start, :roles => :app do
