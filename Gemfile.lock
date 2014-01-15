@@ -239,7 +239,7 @@ DEPENDENCIES
   acts-as-taggable-on
   better_errors
   binding_of_caller
-  capistrano (~> 2.0)
+  capistrano (= 2.15.5)
   capybara
   coffee-rails (~> 4.0.0)
   database_cleaner

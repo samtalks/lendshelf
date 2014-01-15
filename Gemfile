@@ -51,7 +51,7 @@ gem 'acts-as-taggable-on'
 
 gem 'will_paginate'
 
-gem 'capistrano', '~>2.0'
+gem 'capistrano', '2.15.5'
 gem 'rvm-capistrano'
 
 group :test, :development do
