@@ -8,7 +8,11 @@ jQuery ->
 
 
 window.fbAsyncInit = ->
-  FB.init(appId: ENV['FB_APP_ID'], cookie: true)
+  FB.init(appId: ENV['FB_APP_ID_PROD'], cookie: true) if Rails.env.production?
+
+window.fbAsyncInit = ->
+  FB.init(appId: ENV['FB_APP_ID_DEV'], cookie: true) if Rails.env.development?
+
 
   $('#sign_in').click (e) ->
     e.preventDefault()

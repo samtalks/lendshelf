@@ -33,6 +33,21 @@ role :web, server_ip
 role :db, server_ip, :primary => true  # This is where Rails migrations will run
 
 
+### BELOW WAS ADDED PER http://railsguides.net/2013/02/15/how-to-define-environment-variables-in-rails/
+### SO that local_env.yml would be looked for in different places based on if on server or local
+before 'deploy:assets:precompile', :symlink_config_files
+
+desc "Link shared files"
+task :symlink_config_files do
+  symlinks = {
+    "#{shared_path}/config/database.yml" => "#{release_path}/config/database.yml",
+    "#{shared_path}/config/local_env.yml" => "#{release_path}/config/local_env.yml"
+  }
+  run symlinks.map{|from, to| "ln -nfs #{from} #{to}"}.join(" && ")
+end
+### END ABOVE ADDITION
+
+
 # If you are using Passenger mod_rails uncomment this: IMMEDIATE BELOW IS ORIGINAL CAPIFY
 # namespace :deploy do
 #   task :start do ; end
@@ -58,6 +73,7 @@ namespace :deploy do
   end
 
 end
+
 
 namespace :deploy do
   desc "reload the database with seed data"
